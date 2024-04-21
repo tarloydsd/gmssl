@@ -139,7 +139,7 @@ def sm3_kdf(z, klen): # z为16进制表示的比特串（str），klen为密钥�
         ct += 1
     return ha[0: klen * 2]
 
-def sm3_hmac(key, in_msg):
+def sm3_hmac(key, in_msg): # key type: bytes
     ipad = [0x36 for i in range(64)]
     opad = [0x5c for i in range(64)]
 
