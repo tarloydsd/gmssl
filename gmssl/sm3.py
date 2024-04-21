@@ -138,3 +138,17 @@ def sm3_kdf(z, klen): # z为16进制表示的比特串（str），klen为密钥�
         ha = ha + sm3_hash(msg)
         ct += 1
     return ha[0: klen * 2]
+
+def sm3_hmac(key, in_msg):
+    ipad = [0x36 for i in range(64)]
+    opad = [0x5c for i in range(64)]
+
+    if len(key) > 64:
+        key = bytes.fromhex(sm3_hash(key))
+
+    for i in range(len(key)):
+        ipad[i] = ipad[i] ^ key[i]
+        opad[i] = opad[i] ^ key[i]
+
+    h1 = sm3_hash(list(bytes(ipad) + in_msg))
+    return sm3_hash(opad + list(bytes.fromhex(h1)))
